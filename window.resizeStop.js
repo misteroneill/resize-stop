@@ -1,4 +1,9 @@
 /**
+ * window.resizeStop emulates a "resizestop" event on the window object. It is
+ * useful for performing actions that depend on the window size, but are 
+ * expensive in one way or another - i.e. heavy DOM manipulation that might be
+ * detrimental to performance if run as often as resize events tend to fire.
+ *
  * This library-agnostic version assumes the best-case - full support for a
  * number of methods that older or non-DOM-compliant browsers may not support.
  * 
@@ -9,10 +14,10 @@
  * 
  * You may need to tweak this to work with your library or existing application.
  *
- * @name namespace.resizeStop
+ * @name window.resizeStop
  * @namespace
  */
-(function (namespace, window, setTimeout, Date) {
+(function (window, setTimeout, Date) {
 
     var cache = [],
         last = 0,
@@ -21,10 +26,10 @@
 
     window.addEventListener('resize', function () {
         last = Date.now();
-        timer = timer || setTimeout(checkTime, 50);
+        timer = timer || setTimeout(checkTime, 10);
     }, false);
 
-    namespace.resizeStop = {
+    window.resizeStop = {
         /**
          * Changes the threshold at which {@link checkTime} determines that a
          * a resize has stopped.
@@ -32,11 +37,15 @@
          * @param {Number} ms
          *     A new threshold in milliseconds. Must be finite, greater than
          *     zero, and not NaN.
+         * @returns {Number|Boolean}
+         *     Returns the new threshold or false if it failed.
          */
         setThreshold: function (ms) {
             if (typeof ms === 'number' && ms > -1 && !isNaN(ms) && isFinite(ms)) {
                 threshold = ms;
+                return ms;
             }
+            return false;
         },
         /**
          * Fires one or more callbacks when it looks like the user has stopped
@@ -51,7 +60,7 @@
         bind: function (callback) {
             if (typeof callback === 'function') {
                 cache.push(callback);
-                return cache[cache.length - 1];
+                return cache.length - 1;
             }
             return false;
         },
@@ -83,8 +92,8 @@
      */
     function checkTime() {
         var now = Date.now();
-        if (now - last < 500) {
-            timer = setTimeout(checkTime, 50);
+        if (now - last < threshold) {
+            timer = setTimeout(checkTime, 10);
         } else {
             clearTimeout(timer);
             timer = last = 0;
@@ -94,4 +103,4 @@
         }
     }
 
-})(namespace || window, window, setTimeout, Date);
+})(window, setTimeout, Date);
