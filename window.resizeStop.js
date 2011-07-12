@@ -1,19 +1,17 @@
 /**
     window.resizeStop emulates a "resizestop" event on the window object.
-     
-    It is useful for performing actions that depend on the window size, but are 
-    expensive in one way or another - i.e. heavy DOM manipulation that might be
-    detrimental to performance if run as often as resize events tend to fire.
 
-    This library-agnostic version assumes the best-case - full support for a
-    number of methods that older or non-DOM-compliant browsers may not support.
-     
+    This is useful for performing actions that depend on the window size, but are expensive in one way or another - i.e. heavy DOM manipulation or asset loading that might be detrimental to performance if run as often as resize events can fire.
+
+    The library-agnostic version assumes the best-case - full support for a number of methods that older or non-DOM-compliant browsers may not support.
+
     Support for the following is assumed:
+
         Date.now()
         Array.prototype.indexOf()
         window.addEventListener()
-     
-    You may need to tweak this to work with your library or existing application.
+ 
+    You may need to tweak this to work cross-browser or with your library or existing application.
 
     @name window.resizeStop
     @namespace

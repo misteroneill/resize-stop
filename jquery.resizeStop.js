@@ -2,12 +2,9 @@
 
     A jQuery version of window.resizeStop.
 
-    This creates a jQuery special event called "resizestop". This event fires
-    after a certain number of milliseconds since the last resize event fired.
+    This creates a jQuery special event called "resizestop". This event fires after a certain number of milliseconds since the last resize event fired.
 
-    Additionally, as part of the event data that gets passed to the eventual
-    handler function, the resizestop special event passes the size of the 
-    window in an object called "size".
+    Additionally, as part of the event data that gets passed to the eventual handler function, the resizestop special event passes the size of the window in an object called "size".
 
     For example:
 
@@ -15,10 +12,7 @@
         console.log(e.data.size);
     });
 
-    The resizestop special event is useful for performing actions that depend 
-    on the window size, but are expensive in one way or another - i.e. heavy 
-    DOM manipulation or asset loading that might be detrimental to performance 
-    if run as often as resize events can fire.
+    This is useful for performing actions that depend on the window size, but are expensive in one way or another - i.e. heavy DOM manipulation or asset loading that might be detrimental to performance if run as often as resize events can fire.
 
     @name jQuery.event.special.resizestop
     @requires jQuery 1.4.2
