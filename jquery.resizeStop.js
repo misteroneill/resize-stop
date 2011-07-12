@@ -29,6 +29,9 @@
 
     /**
         Handles window resize events.
+
+        @private
+        @ignore
     */
     function onWindowResize() {
         last = $.now();
@@ -36,10 +39,10 @@
     }
 
     /**
-        Checks if the last window resize was over 500ms ago. If so, executes
-        all the functions in the cache.
+        Checks if the last window resize was over the threshold. If so, executes all the functions in the cache.
 
         @private
+        @ignore
     */
     function checkTime() {
         var now = $.now();
@@ -54,11 +57,22 @@
         }
     }
 
+    /**
+        Contains configuration settings for resizestop events.
+
+        @namespace
+    */
     $.resizestop = {
         propagate: false,
         threshold: 500
     };
 
+    /**
+        Contains helper methods used by the jQuery special events API.
+
+        @namespace
+        @ignore
+    */
     $.event.special.resizestop = {
         setup: function (data, namespaces) {
             cache = cache.not(this); // Prevent duplicates.
